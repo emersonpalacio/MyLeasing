@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLeasing.Prism.Android", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLeasing.Prism.iOS", "MyLeasing.Prism\MyLeasing.Prism.iOS\MyLeasing.Prism.iOS.csproj", "{88E103FC-3206-4299-81CF-40C6C621F978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLeasing.Common", "MyLeasing.Common\MyLeasing.Common.csproj", "{AB87A867-FE0E-4C1C-B60C-FD93CEFFB0C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLeasing.Common", "MyLeasing.Common\MyLeasing.Common.csproj", "{AB87A867-FE0E-4C1C-B60C-FD93CEFFB0C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
