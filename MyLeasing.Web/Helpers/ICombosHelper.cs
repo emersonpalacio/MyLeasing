@@ -12,5 +12,7 @@ namespace MyLeasing.Web.Helpers
 
         IEnumerable<SelectListItem> GetComboLessees();
 
+        IEnumerable<SelectListItem> GetComboRoles();
+
     }
 }

@@ -24,6 +24,8 @@ namespace MyLeasing.Web.Helpers
 
         Task<IdentityResult> UpdateUserAsync(User user);
 
+        Task<User> AddUser(AddUserViewModel view, string role);
+
 
 
 

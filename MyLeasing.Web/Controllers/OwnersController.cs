@@ -70,8 +70,10 @@ namespace MyLeasing.Web.Controllers
         // GET: Owners/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new AddUserViewModel { RoleId = 2 };
+            return View(model);
         }
+
 
         // POST: Owners/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -93,8 +95,8 @@ namespace MyLeasing.Web.Controllers
                         User = user
                     };
 
-                    //TODO: Problema al gurdars el owner
-                    _context.Add(model);
+                    //TODO: Problema al guardars el owner
+                    _context.Add(owner);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
 
