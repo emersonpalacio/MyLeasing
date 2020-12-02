@@ -19,6 +19,9 @@ namespace MyLeasing.Web.Helpers
         Task<SignInResult> LoginAsync(LoginViewModel model);
         Task LogoutAsync();
 
+ 
+
+
 
     }
 }

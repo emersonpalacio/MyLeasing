@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MyLeasing.Web.Data;
 using MyLeasing.Web.Helpers;
 using MyLeasing.Web.Models;
 using System;
@@ -11,18 +12,21 @@ namespace MyLeasing.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
+        private readonly DataContext _dataContext;
 
-        public AccountController(IUserHelper  userHelper)
+        public AccountController(IUserHelper  userHelper, DataContext dataContext)
         {
             this._userHelper = userHelper;
+            this._dataContext = dataContext;
         }
 
         public IActionResult Login()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated )
             {
                 return RedirectToAction("Index","Home");
             }
+         
 
             return View();
         }
