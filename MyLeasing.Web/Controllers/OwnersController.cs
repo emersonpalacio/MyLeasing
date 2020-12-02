@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,18 +20,21 @@ namespace MyLeasing.Web.Controllers
         private readonly ICombosHelper _comboshelper;
         private readonly IConverterHelper _converterHelper;
         private readonly IImageHelper _imageHelper;
+        private readonly UserManager<User> _userManager;
 
         public OwnersController(DataContext context,
                                 IUserHelper userHelper,
                                 ICombosHelper comboshelper,
                                 IConverterHelper converterHelper,
-                                IImageHelper imageHelper)
+                                IImageHelper imageHelper,
+                                UserManager<User> userManager)
         {
             _context = context;
             this._userHelper = userHelper;
             this._comboshelper = comboshelper;
             this._converterHelper = converterHelper;
             this._imageHelper = imageHelper;
+            this._userManager = userManager;
         }
 
         // GET: Owners
@@ -124,56 +128,9 @@ namespace MyLeasing.Web.Controllers
 
 
 
-        // GET: Owners/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+       
 
-            var owner = await _context.Owners.FindAsync(id);
-            if (owner == null)
-            {
-                return NotFound();
-            }
-            return View(owner);
-        }
-
-        // POST: Owners/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Owner owner)
-        {
-            if (id != owner.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(owner);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OwnerExists(owner.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(owner);
-        }
+        
 
         // GET: Owners/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -184,14 +141,20 @@ namespace MyLeasing.Web.Controllers
             }
 
             var owner = await _context.Owners
+                .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (owner == null)
             {
                 return NotFound();
             }
 
-            return View(owner);
+            _context.Owners.Remove(owner);
+            await _context.SaveChangesAsync();
+            await _userHelper.DeleteUserAsync(owner.User.Email);
+            return RedirectToAction(nameof(Index));
         }
+
+
 
         // POST: Owners/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -444,6 +407,130 @@ namespace MyLeasing.Web.Controllers
 
             return View(model);
         }
+
+
+
+
+        public async Task<IActionResult> DeleteImage(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var propertyImage = await _context.PropertyImages
+                .Include(pi => pi.Property)
+                .FirstOrDefaultAsync(pi => pi.Id == id.Value);
+            if (propertyImage == null)
+            {
+                return NotFound();
+            }
+
+            _context.PropertyImages.Remove(propertyImage);
+            await _context.SaveChangesAsync();
+            return RedirectToAction($"{nameof(DetailsProperty)}/{propertyImage.Property.Id}");
+        }
+
+        public async Task<IActionResult> DeleteContract(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var contract = await _context.Contracts
+                .Include(c => c.Property)
+                .FirstOrDefaultAsync(c => c.Id == id.Value);
+            if (contract == null)
+            {
+                return NotFound();
+            }
+
+            _context.Contracts.Remove(contract);
+            await _context.SaveChangesAsync();
+            return RedirectToAction($"{nameof(DetailsProperty)}/{contract.Property.Id}");
+        }
+
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var owner = await _context.Owners
+                .Include(o => o.User)
+                .FirstOrDefaultAsync(o => o.Id == id.Value);
+            if (owner == null)
+            {
+                return NotFound();
+            }
+
+            var model = new EditUserViewModel
+            {
+                Address = owner.User.Address,
+                Document = owner.User.Document,
+                FirstName = owner.User.FirstName,
+                Id = owner.Id,
+                LastName = owner.User.LastName,
+                PhoneNumber = owner.User.PhoneNumber
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var owner = await _context.Owners
+                    .Include(o => o.User)
+                    .FirstOrDefaultAsync(o => o.Id == model.Id);
+
+                owner.User.Document = model.Document;
+                owner.User.FirstName = model.FirstName;
+                owner.User.LastName = model.LastName;
+                owner.User.Address = model.Address;
+                owner.User.PhoneNumber = model.PhoneNumber;
+
+                await _userHelper.UpdateUserAsync(owner.User);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> DeleteProperty(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var property = await _context.Properties
+                .Include(p => p.Owner)
+                .Include(p => p.PropertyImages)
+                .Include(p => p.Contracts)
+                .FirstOrDefaultAsync(pi => pi.Id == id.Value);
+            if (property == null)
+            {
+                return NotFound();
+            }
+            if (property.Contracts.Count != 0)
+            {
+                ModelState.AddModelError(string.Empty, "Contan relation register");
+
+            }
+            _context.PropertyImages.RemoveRange(property.PropertyImages);
+            _context.Properties.Remove(property);
+            await _context.SaveChangesAsync();
+            return RedirectToAction($"{nameof(Details)}/{property.Owner.Id}");
+        }
+
+
 
 
 
