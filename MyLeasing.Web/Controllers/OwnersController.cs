@@ -21,13 +21,15 @@ namespace MyLeasing.Web.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly IImageHelper _imageHelper;
         private readonly UserManager<User> _userManager;
+        private readonly IMailHelper _mailHelper;
 
         public OwnersController(DataContext context,
                                 IUserHelper userHelper,
                                 ICombosHelper comboshelper,
                                 IConverterHelper converterHelper,
                                 IImageHelper imageHelper,
-                                UserManager<User> userManager)
+                                UserManager<User> userManager,
+                                IMailHelper  mailHelper)
         {
             _context = context;
             this._userHelper = userHelper;
@@ -35,6 +37,7 @@ namespace MyLeasing.Web.Controllers
             this._converterHelper = converterHelper;
             this._imageHelper = imageHelper;
             this._userManager = userManager;
+            this._mailHelper = mailHelper;
         }
 
         // GET: Owners
@@ -98,6 +101,19 @@ namespace MyLeasing.Web.Controllers
                     //TODO: Problema al guardars el owner
                     _context.Add(owner);
                     await _context.SaveChangesAsync();
+
+                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                    var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                    {
+                        userid = user.Id,
+                        token = myToken
+                    }, protocol: HttpContext.Request.Scheme);
+
+                    _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                        $"To allow the user, " +
+                        $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+
+
                     return RedirectToAction(nameof(Index));
 
                 }
