@@ -10,8 +10,8 @@ using MyLeasing.Web.Data;
 namespace MyLeasing.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201201214228_Huff")]
-    partial class Huff
+    [Migration("20201203154816_initilDb")]
+    partial class initilDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
