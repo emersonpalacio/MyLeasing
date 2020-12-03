@@ -11,7 +11,6 @@ using MyLeasing.Web.Data.Entities;
 using MyLeasing.Web.Helpers;
 using MyLeasing.Web.Models;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -21,8 +20,8 @@ using System.Threading.Tasks;
 namespace MyLeasing.Web.Controllers.API
 {
     [Route("api/[controller]")]
-    [ApiController]
-   
+    [ApiController]   
+
     public class AccountController : ControllerBase
     {
         private readonly DataContext _dataContext;
@@ -33,12 +32,12 @@ namespace MyLeasing.Web.Controllers.API
         public AccountController(DataContext dataContext,
                                  IUserHelper userHelper,
                                  IMailHelper mailHelper,
-                                 IConfiguration  configuration)
+                                 IConfiguration configuration)
         {
-            this._dataContext = dataContext;
-            this._userHelper = userHelper;
-            this._mailHelper = mailHelper;
-            this._configuration = configuration;
+            _dataContext = dataContext;
+            _userHelper = userHelper;
+            _mailHelper = mailHelper;
+            _configuration = configuration;
         }
 
 
@@ -54,7 +53,7 @@ namespace MyLeasing.Web.Controllers.API
                 });
             }
 
-            var user = await _userHelper.GetUserByEmailAsync(request.Email);
+            User user = await _userHelper.GetUserByEmailAsync(request.Email);
             if (user != null)
             {
                 return BadRequest(new Response<object>
@@ -75,13 +74,13 @@ namespace MyLeasing.Web.Controllers.API
                 UserName = request.Email
             };
 
-            var result = await _userHelper.AddUserAsync(user, request.Password);
+            IdentityResult result = await _userHelper.AddUserAsync(user, request.Password);
             if (result != IdentityResult.Success)
             {
                 return BadRequest(result.Errors.FirstOrDefault().Description);
             }
 
-            var userNew = await _userHelper.GetUserByEmailAsync(request.Email);
+            User userNew = await _userHelper.GetUserByEmailAsync(request.Email);
 
             if (request.RoleId == 1)
             {
@@ -96,8 +95,8 @@ namespace MyLeasing.Web.Controllers.API
 
             await _dataContext.SaveChangesAsync();
 
-            var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-            var tokenLink = Url.Action("ConfirmEmail", "Account", new
+            string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+            string tokenLink = Url.Action("ConfirmEmail", "Account", new
             {
                 userid = user.Id,
                 token = myToken
@@ -128,7 +127,7 @@ namespace MyLeasing.Web.Controllers.API
                 });
             }
 
-            var user = await _userHelper.GetUserByEmailAsync(request.Email);
+            User user = await _userHelper.GetUserByEmailAsync(request.Email);
             if (user == null)
             {
                 return BadRequest(new Response<object>
@@ -138,8 +137,8 @@ namespace MyLeasing.Web.Controllers.API
                 });
             }
 
-            var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
-            var link = Url.Action("ResetPassword", "Account", new { token = myToken }, protocol: HttpContext.Request.Scheme);
+            string myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+            string link = Url.Action("ResetPassword", "Account", new { token = myToken }, protocol: HttpContext.Request.Scheme);
             _mailHelper.SendMail(request.Email, "Password Reset", $"<h1>Recover Password</h1>" +
                 $"To reset the password click in this link:</br></br>" +
                 $"<a href = \"{link}\">Reset Password</a>");
@@ -155,7 +154,6 @@ namespace MyLeasing.Web.Controllers.API
 
 
         [HttpPut]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PutUser([FromBody] UserRequest request)
         {
             if (!ModelState.IsValid)
@@ -163,7 +161,7 @@ namespace MyLeasing.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var userEntity = await _userHelper.GetUserByEmailAsync(request.Email);
+            User userEntity = await _userHelper.GetUserByEmailAsync(request.Email);
             if (userEntity == null)
             {
                 return BadRequest("User not found.");
@@ -175,13 +173,13 @@ namespace MyLeasing.Web.Controllers.API
             userEntity.PhoneNumber = request.Phone;
             userEntity.Document = request.Phone;
 
-            var respose = await _userHelper.UpdateUserAsync(userEntity);
+            IdentityResult respose = await _userHelper.UpdateUserAsync(userEntity);
             if (!respose.Succeeded)
             {
                 return BadRequest(respose.Errors.FirstOrDefault().Description);
             }
 
-            var updatedUser = await _userHelper.GetUserByEmailAsync(request.Email);
+            User updatedUser = await _userHelper.GetUserByEmailAsync(request.Email);
             return Ok(updatedUser);
         }
 
@@ -193,27 +191,27 @@ namespace MyLeasing.Web.Controllers.API
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+                User user = await _userHelper.GetUserByEmailAsync(model.UserName);
                 if (user != null)
                 {
-                    var result = await _userHelper.ValidatePasswordAsync(
+                    Microsoft.AspNetCore.Identity.SignInResult result = await _userHelper.ValidatePasswordAsync(
                         user,
                         model.Password);
 
                     if (result.Succeeded)
                     {
-                        var claims = new[] {
+                        Claim[] claims = new[] {
                             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                         };
 
-                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
-                        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                        var token = new JwtSecurityToken(
+                        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+                        SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                        JwtSecurityToken token = new JwtSecurityToken(
                             _configuration["Tokens:Issuer"],
                             _configuration["Tokens:Audience"],
                             claims,
-                            expires: DateTime.UtcNow.AddDays(15),
+                            expires: DateTime.UtcNow.AddMonths(15),
                             signingCredentials: credentials);
                         var results = new
                         {

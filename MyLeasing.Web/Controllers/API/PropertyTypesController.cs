@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MyLeasing.Web.Data;
+using MyLeasing.Web.Data.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MyLeasing.Web.Data;
-using MyLeasing.Web.Data.Entities;
 
 namespace MyLeasing.Web.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PropertyTypesController : ControllerBase
     {
         private readonly DataContext _context;
@@ -25,7 +25,7 @@ namespace MyLeasing.Web.Controllers.API
         [HttpGet]
         public IEnumerable<PropertyType> GetPropertyTypes()
         {
-            return _context.PropertyTypes.OrderBy(p=> p.Name);
+            return _context.PropertyTypes.OrderBy(p => p.Name);
         }
 
         // GET: api/PropertyTypes/5
@@ -37,7 +37,7 @@ namespace MyLeasing.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var propertyType = await _context.PropertyTypes.FindAsync(id);
+            PropertyType propertyType = await _context.PropertyTypes.FindAsync(id);
 
             if (propertyType == null)
             {
