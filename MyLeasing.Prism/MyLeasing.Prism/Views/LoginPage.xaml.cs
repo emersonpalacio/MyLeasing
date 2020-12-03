@@ -1,9 +1,10 @@
-﻿
+﻿using Xamarin.Forms;
+
 namespace MyLeasing.Prism.Views
 {
-    public partial class MainPage
+    public partial class LoginPage : ContentPage
     {
-        public MainPage()
+        public LoginPage()
         {
             InitializeComponent();
         }

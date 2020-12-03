@@ -7,5 +7,10 @@
 
     <!-- Application resource dictionary -->
 
-  </Application.Resources>
+        <ResourceDictionary>
+            <!-- Parameters -->
+            <x:String x:Key="UrlAPI">https://myleasingweb.azurewebsites.net/</x:String>
+        </ResourceDictionary>
+
+    </Application.Resources>
 </prism:PrismApplication>
