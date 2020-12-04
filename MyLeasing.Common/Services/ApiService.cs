@@ -13,7 +13,7 @@ namespace MyLeasing.Common.Services
     public class ApiService : IApiService
     {
 
-        public async Task<Response> GetTokenAsync(
+        public async Task<Response<TokenResponse>> GetTokenAsync(
              string urlBase, // se envia la url donde se publica
              string servicePrefix, // prefijo APi
              string controller, //controlador donde tenemos la accion
@@ -36,7 +36,7 @@ namespace MyLeasing.Common.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return new Response
+                    return new Response<TokenResponse>
                     {
                         IsSuccess = false,
                         Message = result,
@@ -44,15 +44,15 @@ namespace MyLeasing.Common.Services
                 }
 
                 var token = JsonConvert.DeserializeObject<TokenResponse>(result);
-                return new Response
+                return new Response<TokenResponse>
                 {
                     IsSuccess = true,
-                    Result = token.ToString()
+                    Result = token
                 };
             }
             catch (Exception ex)
             {
-                return new Response
+                return new Response<TokenResponse>
                 {
                     IsSuccess = false,
                     Message = ex.Message
@@ -60,7 +60,7 @@ namespace MyLeasing.Common.Services
             }
         }
 
-        public async Task<Response> GetOwnerByEmail(
+        public async Task<Response<OwnerResponse>> GetOwnerByEmailAsync(
             string urlBase,
             string servicePrefix,
             string controller,
@@ -85,7 +85,7 @@ namespace MyLeasing.Common.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return new Response
+                    return new Response<OwnerResponse>
                     {
                         IsSuccess = false,
                         Message = result,
@@ -93,15 +93,15 @@ namespace MyLeasing.Common.Services
                 }
 
                 var owner = JsonConvert.DeserializeObject<OwnerResponse>(result);
-                return new Response
+                return new Response<OwnerResponse>
                 {
                     IsSuccess = true,
-                    Result = owner.ToString()
+                    Result = owner
                 };
             }
             catch (Exception ex)
             {
-                return new Response
+                return new Response<OwnerResponse>
                 {
                     IsSuccess = false,
                     Message = ex.Message

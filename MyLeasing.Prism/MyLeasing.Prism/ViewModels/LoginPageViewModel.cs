@@ -103,6 +103,9 @@ namespace MyLeasing.Prism.ViewModels
                 return;
             }
 
+            var token = response.Result;
+            var owner = response.Result;
+
             IsRunning = false;
             IsEnabled = true;
             await App.Current.MainPage.DisplayAlert("Ok", "We are making progress!", "Accept");
