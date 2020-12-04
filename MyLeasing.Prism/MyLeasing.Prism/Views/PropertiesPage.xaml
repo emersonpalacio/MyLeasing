@@ -74,10 +74,7 @@
                                 <Switch Grid.Row="2"
                                        Grid.Column="1" 
                                         IsEnabled="False"
-                                       IsToggled="{Binding IsAvailable}"/>
-
-
-                                
+                                       IsToggled="{Binding IsAvailable}"/>                                
 
 
                             </Grid>
