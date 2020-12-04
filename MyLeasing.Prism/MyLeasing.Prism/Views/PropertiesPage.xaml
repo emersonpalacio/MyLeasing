@@ -6,12 +6,91 @@
              x:Class="MyLeasing.Prism.Views.PropertiesPage"
              Title="{Binding Title}">
 
-    <StackLayout
-    	Padding="10">
-        <Label
-        	HorizontalOptions="CenterAndExpand"
-        	Text="{Binding Title}"
-        	VerticalOptions="CenterAndExpand"/>
+    <StackLayout>
+
+        <ListView ItemsSource="{Binding Properties}"
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0"
+                                   Source="{Binding Firstimage}"
+                                   WidthRequest="130"/>
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       FontAttributes="Bold"
+                                       Text="Neighborhood"/>
+                                <Label Grid.Row="0"
+                                       Grid.Column="1"                                   
+                                       Text="{Binding Neighborhood}"/>
+
+                                <Label Grid.Row="1"
+                                       Grid.Column="0"
+                                       FontAttributes="Bold"
+                                       Text="Address"/>
+                                <Label Grid.Row="1"
+                                       Grid.Column="1"                                   
+                                       Text="{Binding Address}"/>
+
+                                <Label Grid.Row="2"
+                                       Grid.Column="0"
+                                       FontAttributes="Bold"
+                                       Text="Price"/>
+                                <Label Grid.Row="2"
+                                       Grid.Column="1"                                   
+                                       Text="{Binding Price, StringFormat='{0:C2}'}"/>
+
+                                <Label Grid.Row="3"
+                                       Grid.Column="0"
+                                       FontAttributes="Bold"
+                                       Text="PropertyType"/>
+                                <Label Grid.Row="3"
+                                       Grid.Column="1"                                   
+                                       Text="{Binding PropertyType}"/>
+
+                                <Label Grid.Row="4"
+                                       Grid.Column="0"
+                                       FontAttributes="Bold"
+                                       Text="Is Available"/>
+                                <Switch Grid.Row="2"
+                                       Grid.Column="1" 
+                                        IsEnabled="False"
+                                       IsToggled="{Binding IsAvailable}"/>
+
+
+                                
+
+
+                            </Grid>
+                        </Grid>                        
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            
+            
+            
+            
+        </ListView>
+
     </StackLayout>
 
 

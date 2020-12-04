@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MyLeasing.Common.Models
@@ -19,6 +20,10 @@ namespace MyLeasing.Common.Models
         public string PropertyType { get; set; }
         public ICollection<PropertyImageResponse> PropertyImages { get; set; }
         public ICollection<ContractResponse> Contracts { get; set; }
-
+        public string  Firstimage => (PropertyImages == null || PropertyImages.Count == 0)
+                ? "https://myleasingweb.azurewebsites.net/Owners/Properties/noimage.png"
+                : PropertyImages.FirstOrDefault().ImageUrl;
+           
+        
     }
 }
