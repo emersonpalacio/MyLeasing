@@ -79,9 +79,11 @@ namespace MyLeasing.Common.Services
                 };
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                var url = $"{servicePrefix}{controller}";
+                var url = $"{urlBase}{servicePrefix}{controller}";
                 var response = await client.PostAsync(url, content);
                 var result = await response.Content.ReadAsStringAsync();
+
+
 
                 if (!response.IsSuccessStatusCode)
                 {

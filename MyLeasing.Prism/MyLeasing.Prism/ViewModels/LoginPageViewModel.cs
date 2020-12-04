@@ -29,7 +29,7 @@ namespace MyLeasing.Prism.ViewModels
 
             IsEnabled = true;
 
-            Email = "emersonpalaciootalvaro@gmail.com";
+            Email = "emersonpalaciootalvaro@hotmail.com";
             Password = "123456";
 
         }
@@ -104,11 +104,34 @@ namespace MyLeasing.Prism.ViewModels
             }
 
             var token = response.Result;
-            var owner = response.Result;
+          
+
+            var responser2 = await _apiService.GetOwnerByEmailAsync(
+                url,
+                "api/",
+                "Owners/GetOwnerByEmail",
+                "bearer",
+                token.Token,
+                Email);
+
+            if (!responser2.IsSuccess)
+            {
+                IsEnabled = true;
+                IsRunning = false;
+                await App.Current.MainPage.DisplayAlert("Error", "Problem in user DB call 018000", "Accept");
+                Password = string.Empty;
+                return;
+            }
+
+            var owner = responser2.Result;
+            var parameter = new NavigationParameters{{"owner", owner }};     
+
+    
+
+            await _navigationService.NavigateAsync("PropertiesPage",parameter);
 
             IsRunning = false;
             IsEnabled = true;
-            await App.Current.MainPage.DisplayAlert("Ok", "We are making progress!", "Accept");
 
         }
 
