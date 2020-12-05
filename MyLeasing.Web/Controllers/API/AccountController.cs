@@ -46,7 +46,7 @@ namespace MyLeasing.Web.Controllers.API
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new Response
+                return BadRequest(new Response<object>
                 {
                     IsSuccess = false,
                     Message = "Bad request"
@@ -56,7 +56,7 @@ namespace MyLeasing.Web.Controllers.API
             User user = await _userHelper.GetUserByEmailAsync(request.Email);
             if (user != null)
             {
-                return BadRequest(new Response
+                return BadRequest(new Response<object>
                 {
                     IsSuccess = false,
                     Message = "This email is already registered."
@@ -106,7 +106,7 @@ namespace MyLeasing.Web.Controllers.API
                 $"To allow the user, " +
                 $"please click on this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
 
-            return Ok(new Response
+            return Ok(new Response<object>
             {
                 IsSuccess = true,
                 Message = "A Confirmation email was sent. Please confirm your account and log into the App."
@@ -120,7 +120,7 @@ namespace MyLeasing.Web.Controllers.API
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new Response
+                return BadRequest(new Response<object>
                 {
                     IsSuccess = false,
                     Message = "Bad request"
@@ -130,7 +130,7 @@ namespace MyLeasing.Web.Controllers.API
             User user = await _userHelper.GetUserByEmailAsync(request.Email);
             if (user == null)
             {
-                return BadRequest(new Response
+                return BadRequest(new Response<object>
                 {
                     IsSuccess = false,
                     Message = "This email is not assigned to any user."
@@ -143,7 +143,7 @@ namespace MyLeasing.Web.Controllers.API
                 $"To reset the password click in this link:</br></br>" +
                 $"<a href = \"{link}\">Reset Password</a>");
 
-            return Ok(new Response
+            return Ok(new Response<object>
             {
                 IsSuccess = true,
                 Message = "An email with instructions to change the password was sent."
