@@ -8,101 +8,106 @@
              Title="{Binding Title}">
 
     <StackLayout>
-
         <ListView ItemsSource="{Binding Properties}"
                   HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <ffimageloading:CachedImage
-	                            Grid.Column="0"
-	                            Source="{Binding Firstimage}"
-	                            LoadingPlaceholder= "LoaderImage"
-	                            ErrorPlaceholder= "ErrorImage"
-	                            CacheDuration= "50"
-	                            RetryCount= "3"
-	                            RetryDelay= "600"
-	                            DownsampleToViewSize = "true"
-	                            WidthRequest="100"/>
+                        <Frame CornerRadius="10"
+                               Margin="0,0,0,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectPropertyCommand}"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout>
+                                <ffimageloading:CachedImage
+	                                    Grid.Column="0"
+	                                    Source="{Binding Firstimage}"
+	                                    LoadingPlaceholder= "LoaderImage"
+	                                    ErrorPlaceholder= "ErrorImage"
+	                                    CacheDuration= "50"
+	                                    RetryCount= "3"
+	                                    RetryDelay= "600"
+	                                    DownsampleToViewSize = "true"
+	                                    WidthRequest="100"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>                                    
 
-                            <!--<Image Grid.Column="0"
+                                    <!--<Image Grid.Column="0"
                                    Source="{Binding Firstimage}"
                                    WidthRequest="130"/>-->
-                            <Grid Grid.Column="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
 
-                                <Label Grid.Row="0"
+                                        <Label Grid.Row="0"
                                        Grid.Column="0"
                                        FontAttributes="Bold"
                                        Text="Neighborhood"/>
-                                <Label Grid.Row="0"
+                                        <Label Grid.Row="0"
                                        Grid.Column="1"                                   
                                        Text="{Binding Neighborhood}"/>
 
-                                <Label Grid.Row="1"
+                                        <Label Grid.Row="1"
                                        Grid.Column="0"
                                        FontAttributes="Bold"
                                        Text="Address"/>
-                                <Label Grid.Row="1"
+                                        <Label Grid.Row="1"
                                        Grid.Column="1"                                   
                                        Text="{Binding Address}"/>
 
-                                <Label Grid.Row="2"
+                                        <Label Grid.Row="2"
                                        Grid.Column="0"
                                        FontAttributes="Bold"
                                        Text="Price"/>
-                                <Label Grid.Row="2"
+                                        <Label Grid.Row="2"
                                        Grid.Column="1"                                   
                                        Text="{Binding Price, StringFormat='{0:C2}'}"/>
 
-                                <Label Grid.Row="3"
+                                        <Label Grid.Row="3"
                                        Grid.Column="0"
                                        FontAttributes="Bold"
                                        Text="PropertyType"/>
-                                <Label Grid.Row="3"
+                                        <Label Grid.Row="3"
                                        Grid.Column="1"                                   
                                        Text="{Binding PropertyType}"/>
 
-                                <Label Grid.Row="4"
+                                        <Label Grid.Row="4"
                                        Grid.Column="0"
                                        FontAttributes="Bold"
                                        Text="Is Available"
                                        VerticalOptions="Center"/>
-                                <Switch Grid.Row="4"
+                                        <Switch Grid.Row="4"
                                        Grid.Column="1" 
                                         IsEnabled="False"
                                         HorizontalOptions="Start"
                                        IsToggled="{Binding IsAvailable}"/>
 
 
-                            </Grid>
-                        </Grid>
+                                    </Grid>
+                                    <Image Grid.Column="1"
+                                           Source="ic_more_vert"
+                                           HorizontalOptions="EndAndExpand">
+                                        
+                                    </Image>
+                                </Grid>
+                            </StackLayout>                          
+                        </Frame>                       
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
-
-
-
         </ListView>
-
     </StackLayout>
-
-
 </ContentPage>

@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+           
+             x:Class="MyLeasing.Prism.Views.PropertyPage"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <StackLayout Padding="10">
+            <ffimageloading:CachedImage
+	            Source="{Binding Property.Firstimage}"
+	            Grid.Column="0"
+	            LoadingPlaceholder= "LoaderImage"
+	            ErrorPlaceholder= "ErrorImage"
+	            CacheDuration= "50"
+	            RetryCount= "3"
+	            RetryDelay= "600"
+	            DownsampleToViewSize = "true"
+	            WidthRequest="100"
+                />
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Neighborhood"/>
+                <Label Grid.Row="0"
+                    Grid.Column="1"                                   
+                    Text="{Binding Property.Neighborhood}"/>
+
+                <Label Grid.Row="1"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Address"/>
+                <Label Grid.Row="1"
+                    Grid.Column="1"                                   
+                    Text="{Binding Property.Address}"/>
+
+                <Label Grid.Row="2"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Price"/>
+                <Label Grid.Row="2"
+                    Grid.Column="1"                                   
+                    Text="{Binding Property.Price, StringFormat='{0:C2}'}"/>
+
+                <Label Grid.Row="3"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="PropertyType"/>
+                <Label Grid.Row="3"
+                    Grid.Column="1"                                   
+                    Text="{Binding Property.PropertyType}"/>
+
+                <Label Grid.Row="4"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Is Available"
+                    VerticalOptions="Center"/>
+                <CheckBox Grid.Row="4"
+                    Grid.Column="1" 
+                    IsEnabled="False"
+                    HorizontalOptions="Start"
+                    IsChecked="{Binding Property.IsAvailable}"/>
+
+                <Label Grid.Row="5"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="HasParkingLot"
+                    HorizontalOptions="Start"/>
+                <CheckBox Grid.Row="5"
+                    Grid.Column="1" 
+                    IsEnabled="False"
+                    HorizontalOptions="Start"
+                    IsChecked="{Binding Property.HasParkingLot}"/>
+
+
+                <Label Grid.Row="6"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="SquareMeters"/>
+                <Label Grid.Row="6"
+                    Grid.Column="1"                                   
+                    Text="{Binding Property.SquareMeters, StringFormat='{0:N0}'}"/>
+
+                <Label Grid.Row="7"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Rooms"/>
+                <Label Grid.Row="7"
+                    Grid.Column="1"                                   
+                    Text="{Binding Property.Rooms, StringFormat='{0:N0}'}"/>
+
+                <Label Grid.Row="8"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Stratum"/>
+                <Label Grid.Row="8"
+                    Grid.Column="1"                                   
+                    Text="{Binding Property.Stratum, StringFormat='{0:N0}'}"/>
+
+                <Label Grid.Row="9"
+                    Grid.Column="0"
+                    FontAttributes="Bold"
+                    Text="Remarks"/>
+                <Label Grid.Row="9"
+                    Grid.Column="1"                                   
+                    Text="{Binding Property.Remarks}"/>
+
+            </Grid>
+        </StackLayout>
+    </ScrollView>   
+</ContentPage>

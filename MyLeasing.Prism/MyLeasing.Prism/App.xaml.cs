@@ -30,8 +30,8 @@ namespace MyLeasing.Prism
 
             containerRegistry.RegisterForNavigation<NavigationPage>();           
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
-
-            containerRegistry.RegisterForNavigation<PropertiesPage, PropertiesPageViewModel>();
+            containerRegistry.RegisterForNavigation<PropertiesPage, PropertiesPageViewModel>();           
+            containerRegistry.RegisterForNavigation<PropertyPage, PropertyPageViewModel>();
         }
     }
 }

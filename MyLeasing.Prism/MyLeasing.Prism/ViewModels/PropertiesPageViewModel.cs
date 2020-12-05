@@ -1,4 +1,5 @@
 ﻿using MyLeasing.Common.Models;
+using MyLeasing.Prism.ItemViewModel;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -13,7 +14,7 @@ namespace MyLeasing.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
         private OwnerResponse _owner;
-        private ObservableCollection<PropertyResponse> _properties;
+        private ObservableCollection<PropertyItemViewModel> _properties;
 
         public PropertiesPageViewModel(INavigationService navigationService):base(navigationService)
         {
@@ -21,7 +22,7 @@ namespace MyLeasing.Prism.ViewModels
             Title = "Properties";
         }
 
-        public ObservableCollection<PropertyResponse> Properties
+        public ObservableCollection<PropertyItemViewModel> Properties
         {
             get => _properties;
             set => SetProperty(ref _properties, value);
@@ -35,7 +36,23 @@ namespace MyLeasing.Prism.ViewModels
             {
                 _owner = parameters.GetValue<OwnerResponse>("owner");
                 Title = $"properties of : {_owner.FullName}";
-                Properties = new ObservableCollection<PropertyResponse>(_owner.Properties);
+                Properties = new ObservableCollection<PropertyItemViewModel>
+                (_owner.Properties.Select(p =>  new PropertyItemViewModel(_navigationService) { 
+                    Address = p.Address,
+                    Contracts  = p.Contracts,
+                    HasParkingLot =p.HasParkingLot,
+                    Id = p.Id,
+                    IsAvailable =p.IsAvailable,
+                    Neighborhood = p.Neighborhood,
+                    Price =p.Price,
+                    PropertyImages =p.PropertyImages,
+                    PropertyType = p.PropertyType,
+                    Remarks =p.Remarks,
+                    Rooms = p.Rooms,
+                    SquareMeters = p.SquareMeters,
+                    Stratum = p.Stratum     
+                    
+                }).ToList());
             }
         }
     }
