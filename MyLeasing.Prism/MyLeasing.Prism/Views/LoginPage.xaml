@@ -17,6 +17,9 @@
         <ActivityIndicator IsRunning="{Binding IsRunning}"
                            VerticalOptions="CenterAndExpand"/>
         <Button Text="Login"
+                BackgroundColor="Navy"
+                CornerRadius="23"
+                HeightRequest="46"
                 Command="{Binding LoginCommand}"
                 IsEnabled="{Binding IsEnabled}"/>
         
