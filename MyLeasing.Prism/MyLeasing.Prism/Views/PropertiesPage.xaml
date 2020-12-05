@@ -7,9 +7,11 @@
              x:Class="MyLeasing.Prism.Views.PropertiesPage"
              Title="{Binding Title}">
 
-    <StackLayout>
+    <StackLayout  Padding="10">
         <ListView ItemsSource="{Binding Properties}"
-                  HasUnevenRows="True">
+                  HasUnevenRows="True"
+                  SeparatorVisibility="None"
+                  BackgroundColor="Transparent">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

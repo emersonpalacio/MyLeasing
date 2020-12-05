@@ -11,6 +11,7 @@
     <ScrollView>
         <StackLayout Padding="10">
             <ffimageloading:CachedImage
+                Aspect="AspectFill"
 	            Source="{Binding Property.Firstimage}"
 	            Grid.Column="0"
 	            LoadingPlaceholder= "LoaderImage"
@@ -19,7 +20,7 @@
 	            RetryCount= "3"
 	            RetryDelay= "600"
 	            DownsampleToViewSize = "true"
-	            WidthRequest="100"
+	            HeightRequest="200"
                 />
             <Grid>
 
