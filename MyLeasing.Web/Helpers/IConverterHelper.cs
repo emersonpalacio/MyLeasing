@@ -16,5 +16,7 @@ namespace MyLeasing.Web.Helpers
         Task<Contract> ToContractAsync(ContractViewModel model, bool isNew);
 
         ContractViewModel ToContractViewModel(Contract contract);
+
+
     }
 }

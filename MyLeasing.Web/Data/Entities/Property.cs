@@ -51,6 +51,10 @@ namespace MyLeasing.Web.Data.Entities
         public ICollection<PropertyImage> PropertyImages { get; set; }
         public ICollection<Contract> Contracts { get; set; }
 
+        public string FirstImage => (PropertyImages == null || PropertyImages.Count == 0)
+               ? "https://myleasingweb.azurewebsites.net/Images/Properties/noimage.png"
+               : PropertyImages.FirstOrDefault().ImageUrl; 
+
 
 
     }
