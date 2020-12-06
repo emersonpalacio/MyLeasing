@@ -9,7 +9,7 @@
              Title="{Binding Title}">
 
     <ScrollView>
-        <StackLayout Padding="10">
+        <StackLayout Padding="15">
             <ffimageloading:CachedImage
                 Aspect="AspectFill"
 	            Source="{Binding Property.Firstimage}"

@@ -21,8 +21,9 @@ namespace MyLeasing.Common.Models
         public ICollection<PropertyImageResponse> PropertyImages { get; set; }
         public ICollection<ContractResponse> Contracts { get; set; }
         public string  Firstimage => (PropertyImages == null || PropertyImages.Count == 0)
-                ? "https://myleasingweb.azurewebsites.net/Owners/Properties/noimage.png"
+                ? "https://myleasingweb.azurewebsites.net/Images/Properties/noimage.png"
                 : PropertyImages.FirstOrDefault().ImageUrl;
+           
            
         
     }
