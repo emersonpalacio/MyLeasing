@@ -9,16 +9,16 @@ namespace MyLeasing.Common.Helpers
     public class Settings
     {
 
-        private const string _propertyImages = "PropertyImages";
+        private const string _property = "property";
         private static readonly string _settingsDefault = string.Empty;
 
         private static ISettings AppSettings => CrossSettings.Current;
 
-        public static string PropertyImages
+        public static string Property
         {
-            get => AppSettings.GetValueOrDefault(_propertyImages, _settingsDefault);
-            set => AppSettings.AddOrUpdateValue(_propertyImages, value);
-
+            get => AppSettings.GetValueOrDefault(_property, _settingsDefault);
+            set => AppSettings.AddOrUpdateValue(_property, value);
         }
+
     }
 }

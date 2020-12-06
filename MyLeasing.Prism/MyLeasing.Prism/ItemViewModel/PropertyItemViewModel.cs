@@ -19,13 +19,9 @@ namespace MyLeasing.Prism.ItemViewModel
         public DelegateCommand SelectPropertyCommand => _selectPropertyCommand ?? (_selectPropertyCommand = new DelegateCommand(SelectProperty));
 
         private async void SelectProperty()
-        {           
-
-            NavigationParameters parameters = new NavigationParameters
-            {
-                { "property", this }
-            };
-            await _navigationService.NavigateAsync("PropertyPage", parameters);
+        {
+            Settings.Property = JsonConvert.SerializeObject( this) ;
+            await _navigationService.NavigateAsync("PropertyTabbedPage");
 
         }
     }

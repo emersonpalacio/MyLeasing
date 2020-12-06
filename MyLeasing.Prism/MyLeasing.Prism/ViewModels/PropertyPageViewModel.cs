@@ -1,4 +1,6 @@
-﻿using MyLeasing.Common.Models;
+﻿using MyLeasing.Common.Helpers;
+using MyLeasing.Common.Models;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -16,7 +18,9 @@ namespace MyLeasing.Prism.ViewModels
 
         public PropertyPageViewModel(INavigationService navigationService):base(navigationService)
         {
-            Title ="Property";
+            Title ="Details";
+            Property = JsonConvert.DeserializeObject<PropertyResponse>(Settings.Property);
+            LoadImages();
         }
 
         public PropertyResponse Property 
@@ -32,17 +36,17 @@ namespace MyLeasing.Prism.ViewModels
         }
 
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
+        //public override void OnNavigatedTo(INavigationParameters parameters)
+        //{
+        //    base.OnNavigatedTo(parameters);
 
-            if (parameters.ContainsKey("property"))
-            {
-                Property = parameters.GetValue<PropertyResponse>("property");
-                Title = $"Propiedad: { Property.Neighborhood}";
-            }
-            LoadImages();
-        }
+        //    if (parameters.ContainsKey("property"))
+        //    {
+        //        Property = parameters.GetValue<PropertyResponse>("property");
+        //        Title = $"Propiedad: { Property.Neighborhood}";
+        //    }
+        //    LoadImages();
+        //}
 
         private void LoadImages()
         {
