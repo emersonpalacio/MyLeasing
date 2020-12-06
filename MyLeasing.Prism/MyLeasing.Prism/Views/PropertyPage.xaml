@@ -4,24 +4,40 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-           
+             xmlns:syncfusion="clr-namespace:Syncfusion.SfRotator.XForms;assembly=Syncfusion.SfRotator.XForms"
              x:Class="MyLeasing.Prism.Views.PropertyPage"
              Title="{Binding Title}">
 
     <ScrollView>
         <StackLayout Padding="15">
-            <ffimageloading:CachedImage
-                Aspect="AspectFill"
-	            Source="{Binding Property.Firstimage}"
-	            Grid.Column="0"
-	            LoadingPlaceholder= "LoaderImage"
-	            ErrorPlaceholder= "ErrorImage"
-	            CacheDuration= "50"
-	            RetryCount= "3"
-	            RetryDelay= "600"
-	            DownsampleToViewSize = "true"
-	            HeightRequest="200"
-                />
+
+            <syncfusion:SfRotator
+            	BackgroundColor="#ececec"
+            	EnableAutoPlay="True"  
+            	EnableLooping="True"
+            	HeightRequest="300"
+            	ItemsSource="{Binding ImageCollection}"
+            	NavigationDelay="5000"
+            	NavigationDirection="Horizontal"
+            	NavigationStripMode="Dots"
+            	NavigationStripPosition="Bottom">
+                <syncfusion:SfRotator.ItemTemplate>
+                    <DataTemplate>
+                        <ffimageloading:CachedImage
+                        	Aspect="AspectFit"
+                        	CacheDuration= "50"
+                        	DownsampleToViewSize = "true"
+                        	ErrorPlaceholder= "ErrorImage"
+                        	HeightRequest="300"
+                        	LoadingPlaceholder= "LoaderImage"
+                        	RetryCount= "3"
+                        	RetryDelay= "600"
+                        	Source="{Binding Image}"/>
+                    </DataTemplate>
+                </syncfusion:SfRotator.ItemTemplate>
+            </syncfusion:SfRotator>
+
+
             <Grid>
 
                 <Grid.RowDefinitions>

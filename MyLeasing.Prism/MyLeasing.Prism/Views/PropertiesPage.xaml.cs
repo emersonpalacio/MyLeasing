@@ -1,5 +1,6 @@
 ﻿using Xamarin.Forms;
 
+
 namespace MyLeasing.Prism.Views
 {
     public partial class PropertiesPage : ContentPage
@@ -8,5 +9,9 @@ namespace MyLeasing.Prism.Views
         {
             InitializeComponent();
         }
+
+
+
+
     }
 }
