@@ -7,24 +7,34 @@
              IconImageSource="house"
              Title="{Binding Title}">
 
-    <StackLayout Padding="10">
-        <Label Text="Email"/>
-        <Entry Placeholder="Enter your Mail" 
+    <ScrollView>
+        <StackLayout Padding="10">
+            
+            <Image Source="logo256x256.png"
+                   WidthRequest="230"
+                   Margin="20"/>
+            
+            <Label Text="Email"/>
+            <Entry Placeholder="Enter your Mail" 
                Text="{Binding Email}"/>
-        <Label Text="Passwors"/>
-        <Entry IsPassword="True"
+            <Label Text="Passwors"/>
+            <Entry IsPassword="True"
                Placeholder="Entetr your email"
                Text="{Binding Password}"/>
-        <ActivityIndicator IsRunning="{Binding IsRunning}"
+            <ActivityIndicator IsRunning="{Binding IsRunning}"
                            VerticalOptions="CenterAndExpand"/>
-        <Button Text="Login"
+            <Button Text="Login"
                 BackgroundColor="Navy"
                 CornerRadius="23"
                 HeightRequest="46"
                 Command="{Binding LoginCommand}"
                 IsEnabled="{Binding IsEnabled}"/>
-        
-    </StackLayout>
+
+        </StackLayout>
+
+    </ScrollView>
+
+    
 
    
     
