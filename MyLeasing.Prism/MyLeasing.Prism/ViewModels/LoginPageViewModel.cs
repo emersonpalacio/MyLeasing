@@ -25,7 +25,7 @@ namespace MyLeasing.Prism.ViewModels
         {
             this._navigationService = navigationService;
             this._apiService = apiService;
-            Title = "login";
+            Title = "login ↪️";
 
             IsEnabled = true;
 
