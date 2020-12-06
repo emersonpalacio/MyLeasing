@@ -198,6 +198,12 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator">
+      <Version>18.3.0.52</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator.IOS">
+      <Version>18.3.0.52</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfRotator">
       <Version>18.3.0.52</Version>
     </PackageReference>

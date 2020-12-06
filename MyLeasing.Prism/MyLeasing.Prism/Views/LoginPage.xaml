@@ -5,38 +5,48 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyLeasing.Prism.Views.LoginPage"
              IconImageSource="house"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
+             >
 
     <ScrollView>
-        <StackLayout Padding="10">
-            
-            <Image Source="logo256x256.png"
+
+        <AbsoluteLayout>
+            <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"
+            	         AbsoluteLayout.LayoutFlags="All"
+                         Padding="10">
+
+                <Image Source="logo256x256.png"
                    WidthRequest="230"
                    Margin="20"/>
-            
-            <Label Text="Email"/>
-            <Entry Placeholder="Enter your Mail" 
+
+                <Label Text="Email"/>
+                <Entry Placeholder="Enter your Mail" 
                Text="{Binding Email}"/>
-            <Label Text="Passwors"/>
-            <Entry IsPassword="True"
+                <Label Text="Passwors"/>
+                <Entry IsPassword="True"
                Placeholder="Entetr your email"
                Text="{Binding Password}"/>
-            <ActivityIndicator IsRunning="{Binding IsRunning}"
+                <ActivityIndicator IsRunning="{Binding IsRunning}"
                            VerticalOptions="CenterAndExpand"/>
-            <Button Text="Login"
+                <Button Text="Login"
                 BackgroundColor="Navy"
                 CornerRadius="23"
                 HeightRequest="46"
                 Command="{Binding LoginCommand}"
                 IsEnabled="{Binding IsEnabled}"/>
+            </StackLayout>
 
-        </StackLayout>
+            <IndicatorView  
+                	
+                	AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                	AbsoluteLayout.LayoutFlags="All"
+                	BackgroundColor="Silver"
+                	HorizontalOptions="Center"                   
+                	IsVisible="{Binding IsRunning}"                
+                	VerticalOptions="Center"/>
 
-    </ScrollView>
+        </AbsoluteLayout>      
 
-    
-
-   
-    
-  
+    </ScrollView>  
 </ContentPage>

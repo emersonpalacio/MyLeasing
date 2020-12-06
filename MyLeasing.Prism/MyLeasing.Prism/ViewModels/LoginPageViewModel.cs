@@ -17,6 +17,7 @@ namespace MyLeasing.Prism.ViewModels
         private bool _isRunning;
         private bool _isEnabled;
         private DelegateCommand _loginCommand;
+  
 
 
 
@@ -28,6 +29,8 @@ namespace MyLeasing.Prism.ViewModels
             Title = "login ↪️";
 
             IsEnabled = true;
+            IsRunning = false;
+           
 
             Email = "emersonpalaciootalvaro@hotmail.com";
             Password = "123456";
