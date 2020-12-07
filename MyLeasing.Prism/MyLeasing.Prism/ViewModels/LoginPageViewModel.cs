@@ -19,7 +19,8 @@ namespace MyLeasing.Prism.ViewModels
         private bool _isRunning;
         private bool _isEnabled;
         private DelegateCommand _loginCommand;
-  
+        private bool _isRemember;
+
 
 
 
@@ -32,6 +33,7 @@ namespace MyLeasing.Prism.ViewModels
 
             IsEnabled = true;
             IsRunning = false;
+            IsRemember = true;
            
 
             Email = "emersonpalaciootalvaro@hotmail.com";
@@ -62,6 +64,12 @@ namespace MyLeasing.Prism.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
+
+        public bool IsRemember
+        {
+            get => _isRemember;
+            set => SetProperty(ref _isRemember, value);
+        }
         private async void Login()
         {
             if (string.IsNullOrEmpty(Email))

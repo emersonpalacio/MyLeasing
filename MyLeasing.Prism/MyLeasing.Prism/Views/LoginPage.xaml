@@ -7,7 +7,8 @@
              IconImageSource="house"
              Title="{Binding Title}"
              xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
-             >
+             BackgroundColor="{StaticResource colorBackgroud}
+             ">
 
     <ScrollView>
 
@@ -17,35 +18,67 @@
                          Padding="10">
 
                 <Image Source="logo256x256.png"
-                   WidthRequest="230"
-                   Margin="20"/>
+                       WidthRequest="230"
+                       Margin="20"/>
 
                 <Label Text="Email"/>
                 <Entry Placeholder="Enter your Mail" 
-               Text="{Binding Email}"/>
+                       Text="{Binding Email}"/>        
+
+
                 <Label Text="Passwors"/>
                 <Entry IsPassword="True"
-               Placeholder="Entetr your email"
-               Text="{Binding Password}"/>
+                       Placeholder="Entetr your email"
+                       Text="{Binding Password}"/>
                 <ActivityIndicator IsRunning="{Binding IsRunning}"
-                           VerticalOptions="CenterAndExpand"/>
-                <Button Text="Login"
-                BackgroundColor="Navy"
-                CornerRadius="23"
-                HeightRequest="46"
-                Command="{Binding LoginCommand}"
-                IsEnabled="{Binding IsEnabled}"/>
+                                   VerticalOptions="CenterAndExpand"/>
+
+                <StackLayout HorizontalOptions="Center"
+	                         Orientation="Horizontal">
+                    <Label Text="Rememberme in this device"
+    	                   VerticalOptions="Center"/>
+                    <CheckBox IsChecked="{Binding IsRemember}"/>
+                </StackLayout>
+
+                <Label HorizontalOptions="Center"
+	                   FontAttributes="Bold"
+	                   Text="Forgot your password?"
+	                   TextColor="#0468BF">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="CenterAndExpand">
+                    <Button Text="Login"
+                            BackgroundColor="#0468BF"                       
+                            CornerRadius="23"
+                            HeightRequest="46"
+                            Command="{Binding LoginCommand}"
+                            TextColor="#F2F2F2"
+                            IsEnabled="{Binding IsEnabled}"/>
+
+                    <Button Text="Register"
+                            BackgroundColor="#0468BF"                       
+                            CornerRadius="23"
+                            HeightRequest="46"
+                            Command="{Binding RegisterCommand}"
+                            TextColor="#F2F2F2"
+                            IsEnabled="{Binding IsEnabled}"/>
+                </StackLayout>
+
             </StackLayout>
 
-            <IndicatorView  
-                	
-                	AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
-                	AbsoluteLayout.LayoutFlags="All"
-                	BackgroundColor="Silver"
-                	HorizontalOptions="Center"                   
-                	IsVisible="{Binding IsRunning}"                
-                	VerticalOptions="Center"/>
+           
 
+            <IndicatorView  AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
+                	        AbsoluteLayout.LayoutFlags="All"
+                	        BackgroundColor="#F2055C"                            
+                	        HorizontalOptions="Center"                   
+                	        IsVisible="{Binding IsRunning}"                
+                	        VerticalOptions="Center"/>
         </AbsoluteLayout>      
 
     </ScrollView>  

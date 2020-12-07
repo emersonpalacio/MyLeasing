@@ -11,6 +11,17 @@
             <!-- Parameters -->
             <x:String x:Key="UrlAPI">https://myleasingweb.azurewebsites.net/</x:String>
         </ResourceDictionary>
+      
+      	<!-- Colors -->
+    	<Color x:Key="colorBackgroud">#F2F2F2</Color>
+    	<Color x:Key="colorPrimary">#0468BF</Color>
+    	<Color x:Key="colorSecondary">#067302</Color>
+    	<Color x:Key="colorDanger">#F2055C</Color>
+    	<Color x:Key="colorAccent">#BF4904</Color>
+    	<Color x:Key="colorFont">#000000</Color>
+    	<Color x:Key="colorFontInverse">#F2F2F2</Color>
+
+
 
     </Application.Resources>
 </prism:PrismApplication>

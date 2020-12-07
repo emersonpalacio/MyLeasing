@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyLeasing.Prism.Views.ModifyUserPage"
+             BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
   
 </ContentPage>
