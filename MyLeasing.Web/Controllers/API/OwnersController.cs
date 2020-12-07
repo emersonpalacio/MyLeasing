@@ -37,7 +37,7 @@ namespace MyLeasing.Web.Controllers.API
         {
             try
             {
-                User user = await _userHelper.GetUserByEmailAsync(emailRequest.Email);
+                var user = await _userHelper.GetUserByEmailAsync(emailRequest.Email);
                 if (user == null)
                 {
                     return BadRequest("User not found.");
@@ -60,22 +60,22 @@ namespace MyLeasing.Web.Controllers.API
 
         private async Task<IActionResult> GetLesseeAsync(EmailRequest emailRequest)
         {
-            Lessee lessee = await _dataContext.Lessees
+            var lessee = await _dataContext.Lessees
                 .Include(o => o.User)
                 .Include(o => o.Contracts)
                 .ThenInclude(c => c.Owner)
                 .ThenInclude(o => o.User)
                 .FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals(emailRequest.Email.ToLower()));
 
-            List<Property> properties = await _dataContext.Properties
+            var properties = await _dataContext.Properties
                 .Include(p => p.PropertyType)
                 .Include(p => p.PropertyImages)
                 .Where(p => p.IsAvailable)
                 .ToListAsync();
 
-            OwnerResponse response = new OwnerResponse
+            var response = new OwnerResponse
             {
-                //RoleId = 2,
+                RoleId = 2,
                 Id = lessee.Id,
                 FirstName = lessee.User.FirstName,
                 LastName = lessee.User.LastName,
@@ -86,15 +86,6 @@ namespace MyLeasing.Web.Controllers.API
                 Properties = properties?.Select(p => new PropertyResponse
                 {
                     Address = p.Address,
-                    Contracts = lessee.Contracts?.Select(c => new ContractResponse
-                    {
-                        EndDate = c.EndDate,
-                        Id = c.Id,
-                        IsActive = c.IsActive,
-                        Price = c.Price,
-                        Remarks = c.Remarks,
-                        StartDate = c.StartDate
-                    }).ToList(),
                     HasParkingLot = p.HasParkingLot,
                     Id = p.Id,
                     IsAvailable = p.IsAvailable,
@@ -111,7 +102,15 @@ namespace MyLeasing.Web.Controllers.API
                     SquareMeters = p.SquareMeters,
                     Stratum = p.Stratum
                 }).ToList(),
-
+                Contracts = lessee.Contracts?.Select(c => new ContractResponse
+                {
+                    EndDate = c.EndDate,
+                    Id = c.Id,
+                    IsActive = c.IsActive,
+                    Price = c.Price,
+                    Remarks = c.Remarks,
+                    StartDate = c.StartDate
+                }).ToList()
             };
 
             return Ok(response);
@@ -119,7 +118,7 @@ namespace MyLeasing.Web.Controllers.API
 
         private async Task<IActionResult> GetOwnerAsync(EmailRequest emailRequest)
         {
-            Owner owner = await _dataContext.Owners
+            var owner = await _dataContext.Owners
                 .Include(o => o.User)
                 .Include(o => o.Properties)
                 .ThenInclude(p => p.PropertyType)
@@ -130,9 +129,9 @@ namespace MyLeasing.Web.Controllers.API
                 .ThenInclude(l => l.User)
                 .FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals(emailRequest.Email.ToLower()));
 
-            OwnerResponse response = new OwnerResponse
+            var response = new OwnerResponse
             {
-                //RoleId = 1,
+                RoleId = 1,
                 Id = owner.Id,
                 FirstName = owner.User.FirstName,
                 LastName = owner.User.LastName,
@@ -169,15 +168,15 @@ namespace MyLeasing.Web.Controllers.API
                     SquareMeters = p.SquareMeters,
                     Stratum = p.Stratum
                 }).ToList(),
-                //Contracts = owner.Contracts?.Select(c => new ContractResponse
-                //{
-                //    EndDate = c.EndDate,
-                //    Id = c.Id,
-                //    IsActive = c.IsActive,
-                //    Price = c.Price,
-                //    Remarks = c.Remarks,
-                //    StartDate = c.StartDate
-                //}).ToList()
+                Contracts = owner.Contracts?.Select(c => new ContractResponse
+                {
+                    EndDate = c.EndDate,
+                    Id = c.Id,
+                    IsActive = c.IsActive,
+                    Price = c.Price,
+                    Remarks = c.Remarks,
+                    StartDate = c.StartDate
+                }).ToList()
             };
 
             return Ok(response);
@@ -195,6 +194,7 @@ namespace MyLeasing.Web.Controllers.API
                 PhoneNumber = lessee.User.PhoneNumber
             };
         }
+
 
     }
 }
