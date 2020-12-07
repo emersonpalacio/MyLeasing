@@ -38,8 +38,16 @@ namespace MyLeasing.Prism.ViewModels
 
             //_token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
             _owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
-           
-            Title = $"properties of : {_owner.FullName}";
+
+            if (_owner.RoleId == 1)
+            {
+                Title = $"Properties of: {_owner.FullName}";
+            }
+            else
+            {
+                Title = "Available Properties";
+            }
+
             Properties = new ObservableCollection<PropertyItemViewModel>
             (_owner.Properties.Select(p => new PropertyItemViewModel(_navigationService)
             {

@@ -1,5 +1,6 @@
 ﻿using MyLeasing.Common.Helpers;
 using MyLeasing.Common.Models;
+using MyLeasing.Common.Services;
 using Prism.Commands;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
@@ -10,14 +11,17 @@ namespace MyLeasing.Prism.ViewModels
     public class RegisterPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
+        private readonly IApiService _apiService;
         private bool _isRunning;
         private bool _isEnabled;
         private DelegateCommand _registerCommand;
 
 
-        public RegisterPageViewModel(INavigationService navigationService) : base(navigationService)
+        public RegisterPageViewModel(INavigationService navigationService,
+                                     IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
+            this._apiService = apiService;
             Title = "Register";
             IsEnabled = true;
             LoadRoles();
@@ -65,6 +69,41 @@ namespace MyLeasing.Prism.ViewModels
             {
                 return;
             }
+
+            IsRunning = true;
+            IsEnabled = false;
+
+            var request = new UserRequest
+            {
+                Address = Address,
+                Document = Document,
+                Email = Email,
+                FirstName = FirstName,
+                LastName = LastName,
+                Password = Password,
+                Phone = Phone,
+                RoleId = Role.Id
+            };
+
+            var url = App.Current.Resources["UrlAPI"].ToString();
+            var response = await _apiService.RegisterUserAsync(
+                url,
+                "/api",
+                "/Account",
+                request);
+
+            IsRunning = false;
+            IsEnabled = true;
+
+            if (!response.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", response.Message, "Accept");
+                return;
+            }
+
+            await App.Current.MainPage.DisplayAlert("Ok", response.Message, "Accept");
+            await _navigationService.GoBackAsync();
+
         }
 
         private async Task<bool> ValidateData()

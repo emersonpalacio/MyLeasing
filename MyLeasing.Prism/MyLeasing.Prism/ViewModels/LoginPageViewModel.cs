@@ -37,7 +37,7 @@ namespace MyLeasing.Prism.ViewModels
             IsRunning = false;
             IsRemember = true;
            
-
+            //TODO: usuario quemado
             Email = "emersonpalaciootalvaro@hotmail.com";
             Password = "123456";
 
