@@ -8,7 +8,7 @@ using Syncfusion.SfRotator.XForms.Droid;
 
 namespace MyLeasing.Prism.Droid
 {
-    [Activity(Theme = "@style/MainTheme",
+    [Activity(Theme = "@style/MainTheme", Icon = "@drawable/icono",
               ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
