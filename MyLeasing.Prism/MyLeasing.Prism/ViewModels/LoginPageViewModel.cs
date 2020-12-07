@@ -20,6 +20,8 @@ namespace MyLeasing.Prism.ViewModels
         private bool _isEnabled;
         private DelegateCommand _loginCommand;
         private bool _isRemember;
+        private DelegateCommand _registerCommand;
+
 
 
 
@@ -42,8 +44,9 @@ namespace MyLeasing.Prism.ViewModels
         }
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
+        public DelegateCommand RegisterCommand => _registerCommand ?? (_registerCommand = new DelegateCommand(Register));
 
-       
+    
         public string Email { get; set; }
 
         public string Password 
@@ -146,5 +149,11 @@ namespace MyLeasing.Prism.ViewModels
             IsEnabled = true;
 
         }
+
+        private async void Register()
+        {
+            await _navigationService.NavigateAsync("RegisterPage");
+        }
+
     }
 }
