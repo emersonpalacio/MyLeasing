@@ -1,4 +1,5 @@
 ﻿
+using MyLeasing.Common.Helpers;
 using MyLeasing.Common.Models;
 using Prism.Commands;
 using Prism.Navigation;
@@ -15,7 +16,9 @@ namespace MyLeasing.Prism.ItemViewModel
 
         public MenuItemViewModel(INavigationService navigationService)
         {
+            Settings.IsRemembered = false;
             _navigationService = navigationService;
+            
         }
 
         public DelegateCommand SelectMenuCommand => _selectMenuCommand ?? (_selectMenuCommand =

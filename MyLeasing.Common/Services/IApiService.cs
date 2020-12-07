@@ -23,5 +23,11 @@ namespace MyLeasing.Common.Services
                                                  string controller,
                                                  UserRequest userRequest);
 
+        Task<Response<object>> RecoverPasswordAsync( string urlBase,
+                                                    string servicePrefix,
+                                                    string controller,
+                                                    EmailRequest emailRequest);
+
+
     }
 }

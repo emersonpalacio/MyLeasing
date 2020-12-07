@@ -123,11 +123,11 @@ namespace MyLeasing.Common.Services
 
 
 
-    public async Task<Response<object>> RegisterUserAsync(
-    string urlBase,
-    string servicePrefix,
-    string controller,
-    UserRequest userRequest)
+        public async Task<Response<object>> RegisterUserAsync(
+        string urlBase,
+        string servicePrefix,
+        string controller,
+        UserRequest userRequest)
         {
             try
             {
@@ -153,5 +153,39 @@ namespace MyLeasing.Common.Services
                 };
             }
         }
+
+
+
+        public async Task<Response<object>> RecoverPasswordAsync(string urlBase,
+                                                                 string servicePrefix,
+                                                                 string controller,
+        EmailRequest emailRequest)
+        {
+            try
+            {
+                var request = JsonConvert.SerializeObject(emailRequest);
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var answer = await response.Content.ReadAsStringAsync();
+                var obj = JsonConvert.DeserializeObject<Response<object>>(answer);
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
+
     }
 }
