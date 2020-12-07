@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyLeasing.Web.Data;
+using MyLeasing.Web.Data.Entities;
 using MyLeasing.Web.Helpers;
 using MyLeasing.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -190,6 +192,8 @@ namespace MyLeasing.Web.Controllers
                 return RedirectToAction(nameof(MyProperties));
             }
 
+            view.PropertyTypes = _combosHelper.GetComboPropertyTypes();
+
             return View(view);
         }
 
@@ -221,6 +225,159 @@ namespace MyLeasing.Web.Controllers
         }
 
 
+
+        [Authorize(Roles = "Owner")]
+        public async Task<IActionResult> AddImage(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var property = await _dataContext.Properties.FindAsync(id.Value);
+            if (property == null)
+            {
+                return NotFound();
+            }
+
+            var view = new PropertyImageViewModel
+            {
+                Id = property.Id
+            };
+
+            return View(view);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddImage(PropertyImageViewModel view)
+        {
+            if (ModelState.IsValid)
+            {
+                var path = string.Empty;
+
+                if (view.ImageFile != null && view.ImageFile.Length > 0)
+                {
+                    var guid = Guid.NewGuid().ToString();
+                    var file = $"{guid}.jpg";
+
+                    path = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot\\images\\Properties",
+                        file);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await view.ImageFile.CopyToAsync(stream);
+                    }
+
+                    path = $"~/images/Properties/{file}";
+                }
+
+                var propertyImage = new PropertyImage
+                {
+                    ImageUrl = path,
+                    Property = await _dataContext.Properties.FindAsync(view.Id)
+                };
+
+                _dataContext.PropertyImages.Add(propertyImage);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction($"{nameof(DetailsPropertyOwner)}/{view.Id}");
+            }
+
+            return View(view);
+        }
+
+
+
+        [Authorize(Roles = "Owner")]
+        public async Task<IActionResult> DeleteImage(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var propertyImage = await _dataContext.PropertyImages
+                .Include(pi => pi.Property)
+                .FirstOrDefaultAsync(pi => pi.Id == id.Value);
+            if (propertyImage == null)
+            {
+                return NotFound();
+            }
+
+            _dataContext.PropertyImages.Remove(propertyImage);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction($"{nameof(DetailsPropertyOwner)}/{propertyImage.Property.Id}");
+        }
+
+        [Authorize(Roles = "Owner")]
+        public async Task<IActionResult> DeleteProperty(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var property = await _dataContext.Properties
+                .Include(p => p.Owner)
+                .Include(p => p.Contracts)
+                .FirstOrDefaultAsync(pi => pi.Id == id.Value);
+            if (property == null)
+            {
+                return NotFound();
+            }
+
+            if (property.Contracts?.Count > 0)
+            {
+                return RedirectToAction(nameof(MyProperties));
+            }
+
+            _dataContext.Properties.Remove(property);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction(nameof(MyProperties));
+        }
+
+
+
+        [Authorize(Roles = "Owner, Lessee")]
+        public IActionResult MyContracts()
+        {
+            return View(_dataContext.Contracts
+                .Include(c => c.Owner)
+                .ThenInclude(o => o.User)
+                .Include(c => c.Lessee)
+                .ThenInclude(l => l.User)
+                .Include(c => c.Property)
+                .ThenInclude(p => p.PropertyType)
+                .Where(c => c.Owner.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()) ||
+                            c.Lessee.User.UserName.ToLower().Equals(User.Identity.Name.ToLower())));
+        }
+
+
+
+        [Authorize(Roles = "Owner, Lessee")]
+        public async Task<IActionResult> DetailsContract(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var contract = await _dataContext.Contracts
+                .Include(c => c.Owner)
+                .ThenInclude(o => o.User)
+                .Include(c => c.Lessee)
+                .ThenInclude(l => l.User)
+                .Include(c => c.Property)
+                .ThenInclude(p => p.PropertyType)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (contract == null)
+            {
+                return NotFound();
+            }
+
+            return View(contract);
+        }
 
 
 
