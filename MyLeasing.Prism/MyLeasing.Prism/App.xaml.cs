@@ -57,6 +57,7 @@ namespace MyLeasing.Prism
             containerRegistry.RegisterForNavigation<RememberPassword, RememberPasswordViewModel>();
             containerRegistry.RegisterForNavigation<ChangePasswordPage, ChangePasswordPageViewModel>();
             containerRegistry.RegisterForNavigation<ModifyUserPage, ModifyUserPageViewModel>();
+            containerRegistry.RegisterForNavigation<EditProperty, EditPropertyViewModel>();
         }
     }
 }

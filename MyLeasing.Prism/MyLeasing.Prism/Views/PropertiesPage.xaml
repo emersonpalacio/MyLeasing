@@ -7,6 +7,12 @@
              x:Class="MyLeasing.Prism.Views.PropertiesPage"
              BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
+    
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="add_circle" 
+                     Command="{Binding AddPropertyCommand}"/>
+    </ContentPage.ToolbarItems>
 
     <StackLayout  Padding="10">
         <ListView ItemsSource="{Binding Properties}"

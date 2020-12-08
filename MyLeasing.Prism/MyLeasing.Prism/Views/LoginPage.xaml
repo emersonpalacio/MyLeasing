@@ -71,9 +71,7 @@
                
                 </StackLayout>
 
-            </StackLayout>
-
-           
+            </StackLayout>           
 
             <IndicatorView  AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
                 	        AbsoluteLayout.LayoutFlags="All"

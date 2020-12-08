@@ -18,6 +18,8 @@ namespace MyLeasing.Prism.ViewModels
         private OwnerResponse _owner;
         private TokenResponse _token;
         private ObservableCollection<PropertyItemViewModel> _properties;
+        private DelegateCommand _addPropertyCommand;
+
 
         public PropertiesPageViewModel(INavigationService navigationService):base(navigationService)
         {
@@ -26,6 +28,11 @@ namespace MyLeasing.Prism.ViewModels
             LoadOwners();
 
         }
+
+
+        public DelegateCommand AddPropertyCommand => _addPropertyCommand ?? (_addPropertyCommand =new DelegateCommand(AddPropertyAsync));
+
+     
 
         public ObservableCollection<PropertyItemViewModel> Properties
         {
@@ -66,6 +73,12 @@ namespace MyLeasing.Prism.ViewModels
                 Stratum = p.Stratum
 
             }).ToList());
+        }
+
+
+        private async void AddPropertyAsync()
+        {
+            await _navigationService.NavigateAsync("EditProperty");
         }
     }
 }
