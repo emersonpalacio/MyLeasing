@@ -234,5 +234,42 @@ namespace MyLeasing.Common.Services
             }
         }
 
+
+
+
+        public async Task<Response<object>> ChangePasswordAsync(string urlBase,
+                                                                  string servicePrefix,
+                                                                  string controller,
+                                                                  ChangePasswordRequest changePasswordRequest,
+                                                                  string tokenType,
+                                                                  string accessToken)
+        {
+            try
+            {
+                string request = JsonConvert.SerializeObject(changePasswordRequest);
+                StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string answer = await response.Content.ReadAsStringAsync();
+                Response<object> obj = JsonConvert.DeserializeObject<Response<object>>(answer);
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
+
     }
 }
