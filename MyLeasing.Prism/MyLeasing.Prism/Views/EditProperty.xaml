@@ -4,19 +4,29 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyLeasing.Prism.Views.EditProperty"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              Title="{Binding Title}">
 
     <ScrollView>
         <StackLayout
         	Padding="10">
 
-            <Image
-            	HeightRequest="150"
-            	Source="{Binding ImageSource}">
-                <Image.GestureRecognizers>
+            <ffimageloading:CachedImage
+                        	Aspect="AspectFit"
+                        	CacheDuration= "50"
+                        	DownsampleToViewSize = "true"
+                        	ErrorPlaceholder= "ErrorImage"
+                        	HeightRequest="300"
+                        	LoadingPlaceholder= "LoaderImage"
+                        	RetryCount= "3"
+                        	RetryDelay= "600"
+                        	Source="{Binding ImageSource}">
+                <ffimageloading:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ChangeImageCommand}"/>
-                </Image.GestureRecognizers>
-            </Image>
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloading:CachedImage>
+
+           
 
             <Label
             	FontSize="Micro"

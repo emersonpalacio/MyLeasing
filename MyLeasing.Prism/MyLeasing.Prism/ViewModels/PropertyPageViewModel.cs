@@ -15,13 +15,20 @@ namespace MyLeasing.Prism.ViewModels
     {
         private PropertyResponse _property;
         private ObservableCollection<RotatorModel> _imageCollection;
+        private DelegateCommand _editPropertyCommand;
+        private readonly INavigationService _navigationService;
 
         public PropertyPageViewModel(INavigationService navigationService):base(navigationService)
         {
             Title ="Details";
             Property = JsonConvert.DeserializeObject<PropertyResponse>(Settings.Property);
             LoadImages();
+            this._navigationService = navigationService;
         }
+
+        public DelegateCommand EditPropertyCommand => _editPropertyCommand ?? (_editPropertyCommand =new DelegateCommand(EditPropertyAsync) );
+
+       
 
         public PropertyResponse Property 
         { 
@@ -35,6 +42,7 @@ namespace MyLeasing.Prism.ViewModels
             set => SetProperty(ref _imageCollection, value);
         }
 
+     
 
         //public override void OnNavigatedTo(INavigationParameters parameters)
         //{
@@ -57,6 +65,13 @@ namespace MyLeasing.Prism.ViewModels
             }
 
             ImageCollection = new ObservableCollection<RotatorModel>(list);
+        }
+
+        private async void EditPropertyAsync()
+        {
+            var parameters = new NavigationParameters();
+            parameters.Add("property",Property);
+            await _navigationService.NavigateAsync("EditProperty", parameters);
         }
 
     }

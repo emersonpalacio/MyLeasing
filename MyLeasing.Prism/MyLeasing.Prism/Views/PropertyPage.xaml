@@ -9,9 +9,10 @@
              BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
 
-    <ScrollView>
-        <StackLayout Padding="15">
+  
 
+    <ScrollView Padding="15">
+        <StackLayout >
             <syncfusion:SfRotator
             	BackgroundColor="#ececec"
             	EnableAutoPlay="True"  
@@ -145,6 +146,12 @@
                     Text="{Binding Property.Remarks}"/>
 
             </Grid>
-        </StackLayout>
-    </ScrollView>   
+
+            <Button Text="Edit property"
+                    Command="{Binding EditPropertyCommand}"></Button>
+
+        </StackLayout>      
+       
+    </ScrollView>
+ 
 </ContentPage>
