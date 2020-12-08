@@ -1,9 +1,4 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Prism.Navigation;
 
 namespace MyLeasing.Prism.ViewModels
 {
@@ -11,10 +6,10 @@ namespace MyLeasing.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
 
-        public ModifyUserPageViewModel(INavigationService navigationService):base(navigationService)
+        public ModifyUserPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            this._navigationService = navigationService;
-            Title ="Nvigation User";
+            _navigationService = navigationService;
+            Title = "ModifyUser ";
         }
     }
 }

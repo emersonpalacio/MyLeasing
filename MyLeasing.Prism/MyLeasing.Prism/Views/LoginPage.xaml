@@ -67,6 +67,8 @@
                             Command="{Binding RegisterCommand}"
                             TextColor="#F2F2F2"
                             IsEnabled="{Binding IsEnabled}"/>
+
+               
                 </StackLayout>
 
             </StackLayout>

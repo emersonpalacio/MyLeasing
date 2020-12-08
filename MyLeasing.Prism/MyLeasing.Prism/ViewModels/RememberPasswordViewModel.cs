@@ -2,11 +2,7 @@
 using MyLeasing.Common.Models;
 using MyLeasing.Common.Services;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyLeasing.Prism.ViewModels
@@ -20,10 +16,10 @@ namespace MyLeasing.Prism.ViewModels
         private DelegateCommand _recoverCommand;
 
         public RememberPasswordViewModel(INavigationService navigationService,
-                                         IApiService apiService) :base(navigationService)
+                                         IApiService apiService) : base(navigationService)
         {
-            this._navigationService = navigationService;
-            this._apiService = apiService;
+            _navigationService = navigationService;
+            _apiService = apiService;
             Title = "Remember Password";
 
             IsEnabled = true;
@@ -47,7 +43,7 @@ namespace MyLeasing.Prism.ViewModels
 
         private async void Recover()
         {
-            var isValid = await ValidateData();
+            bool isValid = await ValidateData();
             if (!isValid)
             {
                 return;
@@ -56,13 +52,13 @@ namespace MyLeasing.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
-            var request = new EmailRequest
+            EmailRequest request = new EmailRequest
             {
                 Email = Email
             };
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
-            var response = await _apiService.RecoverPasswordAsync(
+            string url = App.Current.Resources["UrlAPI"].ToString();
+            Response<object> response = await _apiService.RecoverPasswordAsync(
                 url,
                 "/api",
                 "/Account/RecoverPassword",
@@ -91,7 +87,7 @@ namespace MyLeasing.Prism.ViewModels
         {
             if (string.IsNullOrEmpty(Email) || !RegexHelper.IsValidEmail(Email))
             {
-                await App.Current.MainPage.DisplayAlert("Error","Email Error", "Accept");
+                await App.Current.MainPage.DisplayAlert("Error", "Email Error", "Accept");
                 return false;
             }
             return true;

@@ -72,33 +72,31 @@
                                        Text="{Binding Address}"/>
 
                                         <Label Grid.Row="2"
-                                       Grid.Column="0"
-                                       FontAttributes="Bold"
-                                       Text="Price"/>
+                                               Grid.Column="0"
+                                               FontAttributes="Bold"
+                                               Text="Price"/>
                                         <Label Grid.Row="2"
-                                       Grid.Column="1"                                   
-                                       Text="{Binding Price, StringFormat='{0:C2}'}"/>
+                                               Grid.Column="1"                                   
+                                               Text="{Binding Price, StringFormat='{0:C2}'}"/>
 
                                         <Label Grid.Row="3"
-                                       Grid.Column="0"
-                                       FontAttributes="Bold"
-                                       Text="PropertyType"/>
-                                        <Label Grid.Row="3"
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="PropertyType"/>
+                                                <Label Grid.Row="3"
                                        Grid.Column="1"                                   
-                                       Text="{Binding PropertyType}"/>
+                                                       Text="{Binding PropertyType}"/>
 
                                         <Label Grid.Row="4"
-                                       Grid.Column="0"
-                                       FontAttributes="Bold"
-                                       Text="Is Available"
-                                       VerticalOptions="Center"/>
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                Text="Is Available"
+                                                VerticalOptions="Center"/>
                                         <Switch Grid.Row="4"
-                                       Grid.Column="1" 
-                                        IsEnabled="False"
-                                        HorizontalOptions="Start"
-                                       IsToggled="{Binding IsAvailable}"/>
-
-
+                                               Grid.Column="1" 
+                                               IsEnabled="False"
+                                               HorizontalOptions="Start"
+                                               IsToggled="{Binding IsAvailable}"/>
                                     </Grid>
                                     <Image Grid.Column="1"
                                            Source="ic_more_vert"

@@ -3,16 +3,12 @@ using MyLeasing.Common.Models;
 using MyLeasing.Common.Services;
 using Newtonsoft.Json;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MyLeasing.Prism.ViewModels
 {
     public class LoginPageViewModel : ViewModelBase
-    {        
+    {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
         private string _password;
@@ -22,19 +18,20 @@ namespace MyLeasing.Prism.ViewModels
         private bool _isRemember;
         private DelegateCommand _registerCommand;
         private DelegateCommand _forgotPasswordCommand;
+      
 
 
         public LoginPageViewModel(INavigationService navigationService,
-                                  IApiService apiService ) :base(navigationService)
+                                  IApiService apiService) : base(navigationService)
         {
-            this._navigationService = navigationService;
-            this._apiService = apiService;
+            _navigationService = navigationService;
+            _apiService = apiService;
             Title = "login ↪️";
 
             IsEnabled = true;
             IsRunning = false;
             IsRemember = true;
-           
+
             //TODO: usuario quemado
             Email = "emersonpalaciootalvaro@hotmail.com";
             Password = "123456";
@@ -44,15 +41,15 @@ namespace MyLeasing.Prism.ViewModels
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
         public DelegateCommand RegisterCommand => _registerCommand ?? (_registerCommand = new DelegateCommand(Register));
         public DelegateCommand ForgotPasswordCommand => _forgotPasswordCommand ?? (_forgotPasswordCommand = new DelegateCommand(ForgotPassword));
+       
 
-      
 
         public string Email { get; set; }
 
-        public string Password 
-        { 
-            get => _password; 
-            set => SetProperty(ref _password, value); 
+        public string Password
+        {
+            get => _password;
+            set => SetProperty(ref _password, value);
         }
 
         public bool IsRunning
@@ -76,7 +73,7 @@ namespace MyLeasing.Prism.ViewModels
         {
             if (string.IsNullOrEmpty(Email))
             {
-                await App.Current.MainPage.DisplayAlert("error","You must enter your email","Accept");
+                await App.Current.MainPage.DisplayAlert("error", "You must enter your email", "Accept");
                 return;
             }
 
@@ -89,8 +86,8 @@ namespace MyLeasing.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
-            var connection = await _apiService.CheckConnectionAsync(url);
+            string url = App.Current.Resources["UrlAPI"].ToString();
+            bool connection = await _apiService.CheckConnectionAsync(url);
             if (!connection)
             {
                 IsEnabled = true;
@@ -100,14 +97,14 @@ namespace MyLeasing.Prism.ViewModels
             }
 
 
-            var request = new TokenRequest
+            TokenRequest request = new TokenRequest
             {
                 Password = Password,
                 Username = Email
             };
 
             //var url = App.Current.Resources["UrlAPI"].ToString();
-            var response = await _apiService.GetTokenAsync(url, "Account", "/CreateToken", request);
+            Response<TokenResponse> response = await _apiService.GetTokenAsync(url, "Account", "/CreateToken", request);
 
             if (!response.IsSuccess)
             {
@@ -118,10 +115,10 @@ namespace MyLeasing.Prism.ViewModels
                 return;
             }
 
-            var token = response.Result;
-          
+            TokenResponse token = response.Result;
 
-            var responser2 = await _apiService.GetOwnerByEmailAsync(
+
+            Response<OwnerResponse> responser2 = await _apiService.GetOwnerByEmailAsync(
                 url,
                 "api/",
                 "Owners/GetOwnerByEmail",
@@ -138,7 +135,7 @@ namespace MyLeasing.Prism.ViewModels
                 return;
             }
 
-            var owner = responser2.Result;
+            OwnerResponse owner = responser2.Result;
             Settings.Owner = JsonConvert.SerializeObject(owner);
             Settings.Token = JsonConvert.SerializeObject(token);
             Settings.IsRemembered = IsRemember;
@@ -159,6 +156,7 @@ namespace MyLeasing.Prism.ViewModels
         {
             await _navigationService.NavigateAsync("RememberPassword");
         }
+
 
     }
 }
